@@ -1,0 +1,27 @@
+theme = "gruvbox_light"
+[editor]
+idle-timeout = 0
+popup-border = "all"
+color-modes = true
+mouse = true 
+completion-trigger-len = 2
+
+
+[editor.indent-guides]
+render = true
+character =  "▏"
+skip-levels = 0
+  
+[editor.statusline]
+left = ["mode", "spinner"]
+center = ["file-name"]
+right = ["version-control", "diagnostics", "selections", "position", "file-encoding", "file-line-ending", "file-type"]
+separator = "│"
+mode.normal = "NORMAL"
+mode.insert = "INSERT"
+mode.select = "SELECT"
+
+[keys.normal]
+end = "goto_file_end" 
+S-d = "kill_to_line_end"
+tab = "insert_tab"
