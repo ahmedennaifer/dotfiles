@@ -1,10 +1,11 @@
-theme = "gruvbox_light"
+theme = 'rose_pine_dawn'
+
 [editor]
 idle-timeout = 0
 popup-border = "all"
 color-modes = true
 mouse = true 
-completion-trigger-len = 2
+completion-trigger-len = 1
 
 
 [editor.indent-guides]

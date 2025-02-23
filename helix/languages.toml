@@ -3,7 +3,7 @@
 name = "python"
 language-id = "python"
 roots = ["pyproject.toml", "poetry.lock", ".git", ".venv/"]
-language-servers = ["ruff", "pyright"]
+language-servers = ["pylsp", "ruff"]
 # formatter = { command = "ruff", args = ["format", "-" ] }
 formatter = { command = "bash", args = ["-c", "ruff check --fix - | ruff format -"] }
 file-types = ["py", "ipynb"]
@@ -12,24 +12,45 @@ shebangs = ["python"]
 auto-format = true
 
 
+
+[language-server.pylsp.config.pylsp]
+plugins.black.enabled = false
+plugins.pylint.enabled = false
+plugins.pyflakes.enabled = true 
+plugins.pyls_mypy.enabled = true
+plugins.pyls_mypy.live_mode = false
+plugins.isort.enabled = true
+plugins.rope_autoimport.enabled = true 
+
+[language-server.pyright]
+command = "pyright-langserver"
+args = ["--stdio"]
+
+
+[language-server.pyright.config]
+reportMissingTypeStubs = false
+python.analysis.venvPath = "."
+python.analysis.venv = ".venv"
+python.analysis.lint = true
+python.analysis.inlayHint.enable = true
+python.analysis.autoSearchPaths = true
+python.analysis.diagnosticMode = "workspace"
+python.analysis.useLibraryCodeForType = true
+python.analysis.logLevel = "Error"
+python.analysis.typeCheckingMode = "off"
+python.analysis.autoImoprtCompletion = true
+python.analysis.reportOptionalSubscript = false
+python.analysis.reportOptionalMemberAccess = false
+
+
 [language-server.ruff]
 command = "ruff"
-args = ["server", "--preview"]
+args = ["server","-q", "--preview"]
 environment = { "RUFF_TRACE" = "messages" }
 
 [language-server.ruff.config.settings]
 lineLength = 100
 logLevel = "debug"
-
-[language-server.ruff.config.settings.lint]
-select = ["E", "F", "W", "B", "I", "RUF", "N", "LOG", "ERA", "W", "D", "UP", "ANN", "ASYNC", "S", "RET", "TCH", "ARG", "PTH", "DOC"]
-preview = true
-
-[language-server.ruff.config.settings.format]
-preview = true
-quote-style = "double"
-docstring-code-format = true
-indent-style = "space"
 
 
 [[language]]
@@ -133,7 +154,20 @@ language-servers = [ "gopls"]
 
 [language-server.gopls]
 command = "gopls"
-config = { "gofumpt" = true, "local" = "goimports", "semanticTokens" = true, "staticcheck" = true, "verboseOutput" = true, "analyses" = { "fieldalignment" = true, "nilness" = true, unusedparams = true, unusedwrite = true, useany = true }, usePlaceholders = true, completeUnimported = true, hints = { "assignVariableType" = true, "compositeLiteralFields" = true, "compositeLiteralTypes" = true, "constantValues" = true, "functionTypeParameters" = true, "parameterNames" = true, "rangeVariableTypes" = true } }
+
+[language-server.gopls.config.hints]
+assignVariableTypes = true
+compositeLiteralFields = true
+constantValues = true
+functionTypeParameters = true
+parameterNames = true
+rangeVariableTypes = true
+
+[language-server.golangci-lint-lsp]
+command = "golangci-lint-langserver"
+
+[language-server.golangci-lint-lsp.config]
+command = ["golangci-lint", "run", "--out-format", "json", "--issues-exit-code=1"]
 
 
 [[language]]

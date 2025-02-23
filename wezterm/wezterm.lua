@@ -1,26 +1,19 @@
 local wezterm = require("wezterm")
 
-local function file_exists(path)
-    local f = io.open(path, "r")
-    if f~=nil then io.close(f) return true else return false end
-end
+local config = wezterm.config_builder()
 
-local config = {
-    audible_bell = "Disabled",
-    check_for_updates = false,
+config.color_scheme = 'rose-pine-dawn'
+config.font_size = 24
+font = wezterm.font_with_fallback {
+    { family = 'JetBrains Mono', weight = 'Bold' },
+    { family = 'Terminus', weight = 'Bold' },
+  }
+config.window_background_opacity = 0.8
+config.send_composed_key_when_left_alt_is_pressed = true
+config.send_composed_key_when_right_alt_is_pressed = true
+config.macos_window_background_blur = 15
 
-    color_scheme = 'Gruvbox light, soft (base16)',
-    inactive_pane_hsb = {
-   hue = 1.0,
-        saturation = 1.0,
-        brightness = 1.0,
-    },
-    font_size = 14,
-    launch_menu = {},
-    leader = { key="a", mods="CMD" },
-    disable_default_key_bindings = true,
-    keys = {
-        -- Send "CTRL-A" to the terminal when pressing CTRL-A, CTRL-A
+config.keys = {
         { key = "a", mods = "LEADER|CTRL",  action=wezterm.action{SendString="\x01"}},
         { key = "p", mods = "CMD",          action=wezterm.action{SplitVertical={domain="CurrentPaneDomain"}}},
         { key = "/",mods = "CMD",           action=wezterm.action{SplitHorizontal={domain="CurrentPaneDomain"}}},
@@ -43,7 +36,6 @@ local config = {
         { key = "7", mods = "LEADER",       action=wezterm.action{ActivateTab=6}},
         { key = "8", mods = "LEADER",       action=wezterm.action{ActivateTab=7}},
         { key = "9", mods = "LEADER",       action=wezterm.action{ActivateTab=8}},
-        { key = "&", mods = "LEADER|SHIFT", action=wezterm.action{CloseCurrentTab={confirm=true}}},
         { key = "w", mods = "CMD",       action=wezterm.action{CloseCurrentPane={confirm=true}}},
 
         { key = "n", mods="SHIFT|CMD",     action="ToggleFullScreen" },
@@ -52,8 +44,5 @@ local config = {
         { key = "+", mods="CMD",     action="IncreaseFontSize" },
         { key = "-", mods="CMD",     action="DecreaseFontSize" },
         { key = "0", mods="CMD",     action="ResetFontSize" },
-    },
-    set_environment_variables = {},
-}
-
+    }
 return config
